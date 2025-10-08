@@ -1,0 +1,77 @@
+╔════════════════════════════════════════════════════════════════╗
+║         📦 ZAWARTOŚĆ PAKIETU - demand-planner.tar.gz          ║
+╚════════════════════════════════════════════════════════════════╝
+
+📁 demand-planner/
+│
+├── 📄 README.md              # Pełna dokumentacja (PRZECZYTAJ!)
+├── 📄 SZYBKI-START.md        # Instalacja w 3 krokach
+├── 📄 TODO.md                # Pomysły na przyszłe funkcje
+├── 📄 .gitignore             # Dla Git (jeśli chcesz użyć)
+│
+├── 📁 backend/               # Serwer (API + baza danych)
+│   ├── server.js            # Główny serwer Express
+│   ├── database.js          # Konfiguracja SQLite
+│   ├── package.json         # Zależności backend
+│   └── [demand_planner.db]  # Baza (utworzy się auto)
+│
+└── 📁 frontend/              # Interfejs użytkownika (React)
+    ├── package.json         # Zależności frontend
+    │
+    ├── 📁 public/
+    │   └── index.html       # Główny plik HTML
+    │
+    └── 📁 src/
+        ├── index.js         # Entry point
+        ├── index.css        # Style bazowe
+        ├── App.js           # Główny komponent
+        ├── App.css          # Style aplikacji
+        │
+        └── 📁 components/
+            ├── PlanSelector.js      # Wybór/tworzenie planów
+            ├── PlanView.js          # Główny widok (lista)
+            ├── ClientManager.js     # Zarządzanie klientami
+            └── ProductManager.js    # Zarządzanie produktami
+
+═══════════════════════════════════════════════════════════════
+
+✨ CO MOŻESZ ZROBIĆ:
+
+1. Rozpakuj archiwum
+2. Przeczytaj SZYBKI-START.md (albo README.md dla szczegółów)
+3. Zainstaluj zależności: npm install (w backend i frontend)
+4. Uruchom: npm start (w backend i frontend - dwa terminale)
+5. Otwórz przeglądarkę: http://localhost:3000
+
+═══════════════════════════════════════════════════════════════
+
+🎯 FUNKCJONALNOŚCI:
+
+✓ Plany miesięczne (Styczeń 2024, Luty 2024, etc.)
+✓ Lista klientów z danymi kontaktowymi
+✓ Lista produktów z jednostkami (szt, kg, l, m, etc.)
+✓ Dodawanie zapotrzebowania: klient → produkty → ilości
+✓ Widok listy jak chciałeś: klient, produkt, produkt, klient...
+✓ Edycja ilości bezpośrednio w widoku
+✓ Usuwanie pozycji
+✓ Wszystko zapisywane lokalnie (SQLite)
+✓ Gotowe do późniejszego przeniesienia na web!
+
+═══════════════════════════════════════════════════════════════
+
+💡 POTRZEBUJESZ:
+
+- Node.js (https://nodejs.org)
+- Przeglądarka (Chrome, Firefox, Edge, Safari)
+- VS Code (lub inny edytor - opcjonalnie)
+
+═══════════════════════════════════════════════════════════════
+
+❓ PYTANIA?
+
+- Sprawdź README.md (sekcja "Rozwiązywanie problemów")
+- Sprawdź TODO.md (pomysły na nowe funkcje)
+
+═══════════════════════════════════════════════════════════════
+
+Powodzenia! 🚀
