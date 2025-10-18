@@ -5,8 +5,8 @@
   "main": "backend/server.js",
   "scripts": {
     "start": "node backend/server.js",
-    "build": "cd frontend && npm ci && npm run build && cd ..",
-    "install-all": "cd backend && npm install && cd ../frontend && npm install && cd ..",
+    "build": "cd frontend && npm install && npm run build",
+    "install-all": "cd backend && npm install && cd ../frontend && npm install",
     "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm start\""
   },
   "engines": {
