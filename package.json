@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "node backend/server.js",
-    "build": "cd frontend && npm ci --legacy-peer-deps && npm run build"
+    "build": "cd frontend && rm -rf node_modules && npm install --legacy-peer-deps && npm run build"
   },
   "keywords": ["demand-planning"],
   "author": "Demand Planner Team",
