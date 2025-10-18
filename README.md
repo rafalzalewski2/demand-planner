@@ -170,4 +170,4 @@ Jeśli coś nie działa lub chcesz dodać nowe funkcje, daj znać!
 
 ---
 
-Utworzone z ❤️ dla prostego i efektywnego planowania zapotrzebowania.
+Utworzone z ❤️ dla prostego i efektywnego planowania zapotrzebowania. 
