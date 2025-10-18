@@ -10,7 +10,7 @@ import UserManager from './components/UserManager';
 import ReportsManager from './components/ReportsManager'; // NOWY IMPORT
 import ToastNotification from './components/ToastNotification';
 
-const API_URL = 'http://localhost:3001/api';
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001/api';
 
 function AuthenticatedApp() {
   const { user, logout, isAdmin, token } = useAuth();
