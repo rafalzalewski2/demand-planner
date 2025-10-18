@@ -1466,13 +1466,6 @@ app.get('/api/reports/export', authenticateToken, filterByRole, async (req, res)
 
 // KONIEC ENDPOINTÓW RAPORTOWANIA
 
-app.listen(PORT, () => {
-  console.log(`🚀 Demand Planner Server running on port ${PORT}`);
-  console.log(`🔐 Authentication enabled with JWT tokens`);
-  console.log(`📋 Role-based access control active`);
-  console.log(`👤 Test users: admin/admin123, jan.kowalski/jan123, zespol.zakupy/zakupy123`);
-});
-
 // === KOŃCOWE URUCHOMIENIE SERWERA ===
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Demand Planner Server running on port ${PORT}`);
