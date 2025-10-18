@@ -22,24 +22,6 @@ const upload = multer({ dest: 'uploads/' });
 app.use(cors());
 app.use(express.json());
 
-// === OBSŁUGA PLIKÓW STATYCZNYCH DLA HOSTINGU ===
-// W produkcji (na Render.com) serwuj pliki React z folderu build
-if (process.env.NODE_ENV === 'production') {
-  console.log('🌐 Production mode: serving React static files');
-  
-  // Serwuj statyczne pliki React
-  app.use(express.static(path.join(__dirname, '../frontend/build')));
-  
-  // Wszystkie nieznane ścieżki przekieruj na index.html (React Router)
-  app.get('*', (req, res, next) => {
-    // Pomijaj API endpoints
-    if (req.path.startsWith('/api/')) {
-      return next();
-    }
-    res.sendFile(path.join(__dirname, '../frontend/build/index.html'));
-  });
-}
-
 // ========== MIDDLEWARE AUTORYZACYJNE ==========
 
 // Middleware do sprawdzania JWT tokenu
@@ -1465,6 +1447,18 @@ app.get('/api/reports/export', authenticateToken, filterByRole, async (req, res)
 });
 
 // KONIEC ENDPOINTÓW RAPORTOWANIA
+
+// === OBSŁUGA PLIKÓW STATYCZNYCH - MUSI BYĆ NA KOŃCU! ===
+// Serwuj pliki React build (tylko w production)
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../frontend/build')));
+  
+  // Catch-all route - MUSI być ostatni!
+  // Wszystkie nieobsłużone ścieżki przekieruj do React
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/build/index.html'));
+  });
+}
 
 // === KOŃCOWE URUCHOMIENIE SERWERA ===
 app.listen(PORT, '0.0.0.0', () => {
