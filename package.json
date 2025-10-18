@@ -10,6 +10,20 @@
     "start": "node backend/server.js",
     "build": "cd frontend && rm -rf node_modules && npm install --legacy-peer-deps && DISABLE_ESLINT_PLUGIN=true npm run build"
   },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "sqlite3": "^5.1.6",
+    "multer": "^1.4.5-lts.1",
+    "xlsx": "^0.18.5",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "express-session": "^1.17.3"
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0",
+    "nodemon": "^3.0.1"
+  },
   "keywords": ["demand-planning"],
   "author": "Demand Planner Team",
   "license": "MIT"
