@@ -1,0 +1,123 @@
+.editable-select {
+  position: relative;
+  width: 100%;
+}
+
+.editable-select label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #333;
+}
+
+.editable-select-control {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.editable-select-input {
+  flex: 1;
+  padding: 12px 35px 12px 14px;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  font-size: 15px;
+  transition: all 0.2s ease;
+  background: white;
+  height: 47px;
+  box-sizing: border-box;
+}
+
+.editable-select-input:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+.editable-select-arrow {
+  position: absolute;
+  right: 12px;
+  font-size: 10px;
+  color: #666;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.2s ease;
+  pointer-events: all;
+}
+
+.editable-select-arrow.open {
+  transform: rotate(180deg);
+}
+
+.editable-select-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  max-height: 250px;
+  overflow-y: auto;
+  background: white;
+  border: 2px solid #4a90e2;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.editable-select-option {
+  padding: 12px 15px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.editable-select-option:last-child {
+  border-bottom: none;
+}
+
+.editable-select-option:hover {
+  background: #f8f9fa;
+}
+
+.editable-select-option.selected {
+  background: #e3f2fd;
+  color: #1976d2;
+  font-weight: 500;
+}
+
+.editable-select-empty {
+  padding: 15px;
+  text-align: center;
+  color: #999;
+  font-style: italic;
+}
+
+/* Scrollbar styling */
+.editable-select-dropdown::-webkit-scrollbar {
+  width: 8px;
+}
+
+.editable-select-dropdown::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 0 6px 6px 0;
+}
+
+.editable-select-dropdown::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+.editable-select-dropdown::-webkit-scrollbar-thumb:hover {
+  background: #a1a1a1;
+}
