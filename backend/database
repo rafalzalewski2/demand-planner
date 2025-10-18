@@ -1,0 +1,133 @@
+const sqlite3 = require('sqlite3').verbose();
+const bcrypt = require('bcryptjs');
+const path = require('path');
+
+const dbPath = path.join(__dirname, 'demand_planner.db');
+const db = new sqlite3.Database(dbPath);
+
+// Inicjalizacja bazy danych
+db.serialize(() => {
+  // Tabela planów
+  db.run(`
+    CREATE TABLE IF NOT EXISTS plans (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      month INTEGER NOT NULL,
+      year INTEGER NOT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      created_by TEXT,
+      UNIQUE(month, year)
+    )
+  `);
+
+  // Tabela użytkowników z hashowanymi hasłami
+  db.run(`
+    CREATE TABLE IF NOT EXISTS users (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      username TEXT UNIQUE NOT NULL,
+      password_hash TEXT NOT NULL,
+      role TEXT NOT NULL, -- 'admin', 'handlowiec', 'zakupy'
+      full_name TEXT NOT NULL,
+      is_active BOOLEAN DEFAULT 1,
+      last_login DATETIME,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
+
+  // Tabela sesji dla JWT tokenów
+  db.run(`
+    CREATE TABLE IF NOT EXISTS user_sessions (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      token_hash TEXT NOT NULL,
+      expires_at DATETIME NOT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    )
+  `);
+
+  // Tabela klientów z kolumną przypisania
+  db.run(`
+    CREATE TABLE IF NOT EXISTS clients (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL UNIQUE,
+      contact_info TEXT,
+      assigned_to_user_id INTEGER,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (assigned_to_user_id) REFERENCES users(id)
+    )
+  `);
+
+  // Dodanie kolumny assigned_to_user_id do istniejącej tabeli (jeśli nie istnieje)
+  db.run(`
+    ALTER TABLE clients ADD COLUMN assigned_to_user_id INTEGER
+  `, (err) => {
+    if (err && !err.message.includes('duplicate column')) {
+      console.error('Error adding assigned_to_user_id column:', err.message);
+    }
+  });
+
+  // Tabela produktów
+  db.run(`
+    CREATE TABLE IF NOT EXISTS products (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL UNIQUE,
+      unit TEXT DEFAULT 'szt',
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
+
+  // Tabela pozycji planów (zapotrzebowanie)
+  db.run(`
+    CREATE TABLE IF NOT EXISTS plan_items (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      plan_id INTEGER NOT NULL,
+      client_id INTEGER NOT NULL,
+      product_id INTEGER NOT NULL,
+      quantity REAL NOT NULL,
+      notes TEXT,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (plan_id) REFERENCES plans(id) ON DELETE CASCADE,
+      FOREIGN KEY (client_id) REFERENCES clients(id),
+      FOREIGN KEY (product_id) REFERENCES products(id),
+      UNIQUE(plan_id, client_id, product_id)
+    )
+  `);
+
+  // Wstawienie przykładowych użytkowników z hashowanymi hasłami (tylko jeśli tabela jest pusta)
+  db.get('SELECT COUNT(*) as count FROM users', [], async (err, row) => {
+    if (!err && row.count === 0) {
+      console.log('Creating sample users with hashed passwords...');
+      
+      const sampleUsers = [
+        { username: 'admin', password: 'admin123', role: 'admin', full_name: 'Administrator' },
+        { username: 'jan.kowalski', password: 'jan123', role: 'handlowiec', full_name: 'Jan Kowalski' },
+        { username: 'anna.nowak', password: 'anna123', role: 'handlowiec', full_name: 'Anna Nowak' },
+        { username: 'piotr.wisniewski', password: 'piotr123', role: 'handlowiec', full_name: 'Piotr Wiśniewski' },
+        { username: 'zespol.zakupy', password: 'zakupy123', role: 'zakupy', full_name: 'Zespół Zakupów' }
+      ];
+
+      for (const user of sampleUsers) {
+        try {
+          const hashedPassword = await bcrypt.hash(user.password, 10);
+          db.run(
+            'INSERT INTO users (username, password_hash, role, full_name) VALUES (?, ?, ?, ?)',
+            [user.username, hashedPassword, user.role, user.full_name],
+            (err) => {
+              if (err) {
+                console.error('Error inserting sample user:', err.message);
+              } else {
+                console.log(`Created user: ${user.username}`);
+              }
+            }
+          );
+        } catch (error) {
+          console.error('Error hashing password for', user.username, ':', error);
+        }
+      }
+    }
+  });
+
+  console.log('Database initialized successfully with security enhancements');
+});
+
+module.exports = db;
