@@ -1,0 +1,5 @@
+legacy-peer-deps=true
+progress=false
+audit=false
+fund=false
+loglevel=error
