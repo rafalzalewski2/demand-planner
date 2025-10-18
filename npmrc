@@ -3,3 +3,5 @@ progress=false
 audit=false
 fund=false
 loglevel=error
+cache=false
+prefer-offline=false
