@@ -1,11 +1,10 @@
 [phases.setup]
-nixPkgs = ["nodejs-18_x", "npm"]
+nixPkgs = ["nodejs-22_x", "npm"]
 
 [phases.install]
 cmds = [
-  "npm ci --production=false --legacy-peer-deps",
-  "cd backend && npm ci --legacy-peer-deps",
-  "cd ../frontend && npm ci --legacy-peer-deps"
+  "cd backend && npm ci --legacy-peer-deps --cache /tmp/.npm",
+  "cd ../frontend && npm ci --legacy-peer-deps --cache /tmp/.npm"
 ]
 
 [phases.build]
