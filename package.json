@@ -1,32 +1,15 @@
 {
   "name": "demand-planner-full",
   "version": "1.0.0",
-  "description": "Full-stack demand planning application with React frontend and Node.js backend",
+  "description": "Full-stack demand planning application",
   "main": "backend/server.js",
-  "scripts": {
-    "start": "node backend/server.js",
-    "build": "cd frontend && npm install --legacy-peer-deps && npm run build",
-    "install-backend": "cd backend && npm install",
-    "install-frontend": "cd frontend && npm install",
-    "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm start\""
-  },
   "engines": {
-    "node": "22.x",
-    "npm": ">=10.0.0"
+    "node": "22.x"
   },
-  "dependencies": {},
-  "devDependencies": {
-    "concurrently": "^7.6.0"
+  "scripts": {
+    "start": "node backend/server.js"
   },
-  "keywords": [
-    "demand-planning",
-    "inventory",
-    "planning",
-    "react",
-    "nodejs",
-    "sqlite",
-    "express"
-  ],
+  "keywords": ["demand-planning"],
   "author": "Demand Planner Team",
   "license": "MIT"
 }
